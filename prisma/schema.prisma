@@ -1,18 +1,32 @@
-generator client {
-  provider = "prisma-client-js"
-  output = "../../node_modules/.prisma/client"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   password  String
   name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  portfolio Portfolio[]
+}
+
+model Portfolio {
+  id             Int       @id @default(autoincrement())
+  cardImg        String
+  title          Json
+  cardDescription Json
+  labels         Json
+  logo           String
+  previewLink    String
+  link           String
+  bgImg          String
+  description    Json
+  client         String
+  scope          Json
+  startDate      DateTime
+  finishDate     DateTime
+  feedback       Json
+  content        Json
+  userId         Int
+  user           User      @relation(fields: [userId], references: [id])
+
+  @@index([userId])
 }
