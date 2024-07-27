@@ -1,6 +1,4 @@
-# alex-backend
-
-# My App
+# Auth System TypeScript Express
 
 This is a sample Node.js application with Express, TypeScript, Prisma, JWT authentication, and Swagger for API documentation.
 
