@@ -1,14 +1,27 @@
 import express from 'express';
-import { getProfile, updateProfile } from '../controllers/user';
+import { getProfile, updateProfile, register } from '../controllers/user';
 import { body } from 'express-validator';
 import { validateRequest } from '../middlewares/validateRequest';
 
 const router = express.Router();
 
+
+/**
+ * @swagger
+ * /user/register:
+ *   get:
+ *     summary: Register user
+ *     tags: [User]
+ *     responses:
+ *       200:
+ *         description: User profile fetched successfully
+ */
+router.post('/register', register);
+
 /**
  * @swagger
  * /user/profile:
- *   get:
+ *   post:
  *     summary: Get user profile
  *     tags: [User]
  *     responses:

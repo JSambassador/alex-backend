@@ -13,6 +13,7 @@ export const login = async (req: Request, res: Response) => {
     const token = await signIn(email, password);
     res.status(200).json({ token });
   } catch (error) {
+    console.log(error);
     res.status(401).json({ error: (error as Error).message });
   }
 };
