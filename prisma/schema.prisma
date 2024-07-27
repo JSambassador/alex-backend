@@ -1,32 +1,56 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" 
+  url      = env("DATABASE_URL")
+}
+
 model User {
-  id        Int        @id @default(autoincrement())
-  email     String     @unique
-  password  String
-  name      String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  portfolio Portfolio[]
+  id         Int         @id @default(autoincrement())
+  name   String     
+  password   String
+  email      String      @unique
+  roles      UserRole[]  
+  portfolios Portfolio[] 
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+}
+
+model Role {
+  id         Int        @id @default(autoincrement())
+  name       String     @unique
+  users      UserRole[] 
 }
 
 model Portfolio {
-  id             Int       @id @default(autoincrement())
-  cardImg        String
-  title          Json
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cardImg         String
   cardDescription Json
-  labels         Json
-  logo           String
-  previewLink    String
-  link           String
-  bgImg          String
-  description    Json
-  client         String
-  scope          Json
-  startDate      DateTime
-  finishDate     DateTime
-  feedback       Json
-  content        Json
-  userId         Int
-  user           User      @relation(fields: [userId], references: [id])
+  labels          Json
+  logo            String
+  previewLink     String
+  link            String
+  bgImg           String
+  client          String
+  scope           Json
+  feedback        Json
+  content         Json
+}
 
-  @@index([userId])
+model UserRole {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  roleId Int
+  user   User @relation(fields: [userId], references: [id])
+  role   Role @relation(fields: [roleId], references: [id])
+
+  @@unique([userId, roleId]) 
 }

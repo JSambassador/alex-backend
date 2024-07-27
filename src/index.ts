@@ -1,22 +1,21 @@
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
-import dotenv from 'dotenv';
+import { json } from 'body-parser';
 import authRoutes from './routes/auth';
 import userRoutes from './routes/user';
-
-dotenv.config();
+import portfolioRoutes from './routes/portfolio';
+import { setupSwagger } from './swagger';
 
 const app = express();
-const prisma = new PrismaClient();
 
-app.use(express.json());
+app.use(json());
+
+setupSwagger(app);
 
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
+app.use('/portfolio', portfolioRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });
-
-export default app;
